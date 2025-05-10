@@ -1,30 +1,29 @@
-import { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import ComponentCard from "../../common/ComponentCard";
 import Input from "../input/InputField";
 import Label from "../Label";
+
 export default function InputStates() {
-  const [email, setEmail] = useState("");
-  const [emailTwo, setEmailTwo] = useState("");
-  const [error, setError] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      emailTwo: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      emailTwo: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+    }),
+    onSubmit: (values) => {
+      // handle form submission
+      console.log(values);
+    },
+  });
 
-  // Simulate a validation check
-  const validateEmail = (value: string) => {
-    const isValidEmail =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
-    setError(!isValidEmail);
-    return isValidEmail;
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    validateEmail(value);
-  };
-  const handleEmailTwoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmailTwo(value);
-    validateEmail(value);
-  };
   return (
     <ComponentCard
       title="Input States"
@@ -36,11 +35,16 @@ export default function InputStates() {
           <Label>Email</Label>
           <Input
             type="email"
-            value={email}
-            error={error}
-            onChange={handleEmailChange}
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            onChange={formik.handleChange}
+            name="email"
             placeholder="Enter your email"
-            hint={error ? "This is an invalid email address." : ""}
+            hint={
+              formik.touched.email && formik.errors.email
+                ? formik.errors.email
+                : ""
+            }
           />
         </div>
 
@@ -49,11 +53,18 @@ export default function InputStates() {
           <Label>Email</Label>
           <Input
             type="email"
-            value={emailTwo}
-            success={!error}
-            onChange={handleEmailTwoChange}
+            value={formik.values.emailTwo}
+            success={formik.touched.emailTwo && !formik.errors.emailTwo}
+            onChange={formik.handleChange}
+            name="emailTwo"
             placeholder="Enter your email"
-            hint={!error ? "This is an success message." : ""}
+            hint={
+              formik.touched.emailTwo && formik.errors.emailTwo
+                ? formik.errors.emailTwo
+                : !formik.errors.emailTwo
+                ? "This is a success message."
+                : ""
+            }
           />
         </div>
 
