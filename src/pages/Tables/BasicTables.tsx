@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import CommonTable from "../../components/tables/BasicTables/BasicTableOne"; // Adjust path as needed
 import Pagination from "../../components/ui/pagination";

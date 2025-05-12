@@ -19,7 +19,7 @@ export default function TextAreaInput() {
           console.log(values);
         }}
       >
-        {({ values, handleChange, handleBlur, touched, errors }) => (
+        {({ values, handleChange, touched, errors }) => (
           <Form className="space-y-6">
             {/* Default TextArea */}
             <div>
