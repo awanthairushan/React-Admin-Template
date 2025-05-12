@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './slices/counterSlice'
+import confirmationReducer from './slices/confirmationSlice'
 import { pokemonApi } from '../api/pokemon'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    confirmation: confirmationReducer,
     [pokemonApi.reducerPath]: pokemonApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
